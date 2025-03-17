@@ -2,6 +2,8 @@
 
 Welcome! This tool will help you quickly install popular programs, activate Windows/Office, and configure the system with minimal effort and maximum automation.
 
+![Main script GUI](https://raw.githubusercontent.com/Esedess/WindowsSetupAutomation/44c9e85dc974d1d0442f490c639a14dcdf9e3d90/WindowsSetupAutomation.jpg)
+
 ---
 
 ## 📦 Main Features
