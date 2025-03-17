@@ -1,0 +1,14 @@
+{
+    "Programs":  [
+        "7-Zip",
+        "Notepad++",
+        "Telegram"
+    ],
+    "Activation":  {
+        "Windows":  true,
+        "Office":  false
+    },
+    "KES":  false,
+    "MaxUAC":  false,
+    "DisableFirewall":  true
+}

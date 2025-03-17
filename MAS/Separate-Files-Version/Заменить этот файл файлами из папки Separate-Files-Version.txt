@@ -1,0 +1,3 @@
+https://github.com/massgravel/Microsoft-Activation-Scripts
+
+Заменить этот файл файлами из папки Separate-Files-Version

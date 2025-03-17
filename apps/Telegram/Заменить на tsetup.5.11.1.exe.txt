@@ -1,0 +1,1 @@
+https://github.com/telegramdesktop/tdesktop/releases/download/v5.11.1/tsetup.5.11.1.exe
