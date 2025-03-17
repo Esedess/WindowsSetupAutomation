@@ -137,4 +137,4 @@
 
 - [Silent Install HQ](https://silentinstall.org) — параметры тихой установки.
 - [PowerShell Docs](https://docs.microsoft.com/powershell) — документация по PowerShell.
-- [GitHub Issues](https://github.com) — сообщайте об ошибках или предлагайте улучшения.
+- [GitHub Issues]([https://github.com](https://github.com/Esedess/WindowsSetupAutomation/issues)) — сообщайте об ошибках или предлагайте улучшения.
