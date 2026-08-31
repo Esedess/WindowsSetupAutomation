@@ -1,27 +1,20 @@
 ﻿param(
     [string]$RootPath = $PSScriptRoot,
-    [string]$LogPath
+    [string]$LogPath = (Join-Path ([Environment]::GetFolderPath('Desktop')) 'InstallLog.txt')
 )
 
-function Write-Log {
-    param($message)
-    "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - [Firewall] $message" | Out-File $LogPath -Append -Encoding UTF8
+$ErrorActionPreference = 'Stop'
+
+function Write-Log([string]$Message) {
+    "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - [Firewall] $Message" | Out-File -LiteralPath $LogPath -Append -Encoding UTF8
 }
 
 try {
-
-    Write-Log "Отключаем firewall"
-    
-    $process = Start-Process "netsh" -ArgumentList "advfirewall set allprofiles state off" -Verb RunAs -PassThru -Wait
-    
-    if ($process.ExitCode -eq 0) {
-        Write-Log "Firewall отключен успешно. Код: $($process.ExitCode)"
-    } 
-    else {
-        throw "Ошибка отключения firewall. Код: $($process.ExitCode)"
-    }
-}
-catch {
-    Write-Log "Критическая ошибка: $_"
-    throw  # Пробрасываем исключение дальше для основного скрипта
+    Write-Log 'Отключение Windows Firewall для всех профилей'
+    $process = Start-Process -FilePath 'netsh.exe' -ArgumentList 'advfirewall set allprofiles state off' -PassThru -Wait
+    if ($process.ExitCode -ne 0) { throw "netsh завершился с кодом $($process.ExitCode)" }
+    Write-Log 'Windows Firewall отключён успешно'
+} catch {
+    Write-Log "Ошибка: $($_.Exception.Message)"
+    throw
 }
