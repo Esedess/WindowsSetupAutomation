@@ -14,11 +14,20 @@ function Write-Log([string]$Message) {
 
 try {
     if (-not (Test-Path -LiteralPath $installerPath -PathType Leaf)) { throw "Не найден установщик KES: $installerPath" }
-    if (-not (Test-Path -LiteralPath $activationCodePath -PathType Leaf)) { throw "Не найден файл кода активации: $activationCodePath" }
-    $activationCode = (Get-Content -LiteralPath $activationCodePath -Raw).Trim()
-    if ([string]::IsNullOrWhiteSpace($activationCode)) { throw 'Файл кода активации пуст.' }
-    $arguments = @('/pEULA=1','/pPRIVACYPOLICY=1',"/pACTIVATIONCODE=$activationCode",'/pADDENVIRONMENT=1','/s')
-    Write-Log 'Запуск тихой установки KES (код активации скрыт)'
+    $arguments = @('/pEULA=1','/pPRIVACYPOLICY=1')
+    if (Test-Path -LiteralPath $activationCodePath -PathType Leaf) {
+        $activationCode = (Get-Content -LiteralPath $activationCodePath -Raw).Trim()
+        if (-not [string]::IsNullOrWhiteSpace($activationCode)) {
+            $arguments += "/pACTIVATIONCODE=$activationCode"
+            Write-Log 'Код активации прочитан из ActivationCode.txt (значение скрыто)'
+        } else {
+            Write-Log 'ActivationCode.txt пуст; код из файла не передаётся'
+        }
+    } else {
+        Write-Log 'ActivationCode.txt отсутствует; при необходимости код должен быть указан в setup.ini'
+    }
+    $arguments += @('/pADDENVIRONMENT=1','/s')
+    Write-Log 'Запуск тихой установки KES'
     $process = Start-Process -FilePath $installerPath -ArgumentList $arguments -WorkingDirectory $workingDir -PassThru -Wait
     if ($process.ExitCode -notin @(0,3010)) { throw "Установщик завершился с кодом $($process.ExitCode)" }
     Write-Log "Установка KES завершена успешно. Код: $($process.ExitCode)"

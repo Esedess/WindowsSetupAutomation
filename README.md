@@ -202,12 +202,24 @@ rem shutdown /r /f /t 10
 ```text
 KES/
 ├── KES.ps1
-├── ActivationCode.txt
+├── ActivationCode.txt       # необязательно
 └── KES/
-    └── setup_kes.exe
+    ├── setup_kes.exe
+    ├── setup.ini
+    └── остальные файлы распакованного установщика
 ```
 
-В `ActivationCode.txt` должна быть одна строка с кодом. Файл уже добавлен в `.gitignore`, но всё равно не забывайте проверять `git status` перед публикацией.
+Код активации можно указать одним из двух способов:
+
+- одной строкой в необязательном `ActivationCode.txt`;
+- в `KES/KES/setup.ini`:
+
+```ini
+[Setup]
+ActivationCode=XXXXX-XXXXX-XXXXX-XXXXX
+```
+
+Если `ActivationCode.txt` существует и не пуст, обёртка передаёт его значение через `/pACTIVATIONCODE`. Если файла нет, установщик использует собственную конфигурацию `setup.ini`. Остальные параметры тихой установки уже заданы в `KES.ps1`.
 
 ## Порядок выполнения
 
