@@ -12,7 +12,7 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 [System.Windows.Forms.Application]::EnableVisualStyles()
 
-$script:Version = '2.0.0'
+$script:Version = '2.0.2'
 $script:RootPath = [IO.Path]::GetFullPath($ScriptRoot).TrimEnd('\')
 $script:AppsPath = Join-Path $script:RootPath 'apps'
 $script:ConfigPath = Join-Path $script:RootPath 'installer_config.json'
@@ -209,7 +209,14 @@ function Invoke-Entry($Entry) {
     foreach($arg in (Split-Arguments ([string]$Entry.Arguments))){ $arguments.Add($arg) }
     Write-Log "Запуск: $($Entry.Name); тип=$type; файл=$file; аргументы=$($Entry.Arguments)" 'Runner'
     $argumentLine = (($arguments.ToArray() | ForEach-Object { ConvertTo-CommandLineArgument $_ }) -join ' ')
-    $process = Start-Process -FilePath $executable -ArgumentList $argumentLine -WorkingDirectory (Split-Path -Parent $file) -PassThru -Wait
+    $startParameters = @{
+        FilePath = $executable
+        WorkingDirectory = (Split-Path -Parent $file)
+        PassThru = $true
+        Wait = $true
+    }
+    if ($arguments.Count -gt 0) { $startParameters.ArgumentList = $argumentLine }
+    $process = Start-Process @startParameters
     $successCodes = @($Entry.SuccessExitCodes | ForEach-Object { [int]$_ })
     if($process.ExitCode -notin $successCodes){ throw "Код завершения $($process.ExitCode), ожидался: $($successCodes -join ', ')" }
     Write-Log "Успешно: $($Entry.Name); код=$($process.ExitCode)" 'Runner'
