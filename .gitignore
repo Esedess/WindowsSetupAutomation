@@ -1,0 +1,33 @@
+# Дистрибутивы и архивы
+*.exe
+*.msi
+*.msix
+*.msixbundle
+*.appx
+*.appxbundle
+*.cab
+*.iso
+*.zip
+*.7z
+*.rar
+*.mhtml
+
+# Лицензии, ключи и локальные секреты
+*.key
+KES/ActivationCode.txt
+**/ActivationCode.txt
+*.lic
+
+# Журналы и локальное состояние
+InstallLog.txt
+*.log
+*.lock
+installer_config.local.json
+installer_config.json.tmp
+
+# Служебные файлы Windows и редакторов
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.user

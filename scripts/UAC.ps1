@@ -1,6 +1,7 @@
 ﻿param([string]$LogPath)
 
-# https://superuser.com/questions/817114/set-uac-level-with-powershell
+$ErrorActionPreference = 'Stop'
+if ([string]::IsNullOrWhiteSpace($LogPath)) { $LogPath = Join-Path ([Environment]::GetFolderPath('Desktop')) 'InstallLog.txt' }
 
 function Write-Log {
     param($message)

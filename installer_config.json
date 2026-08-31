@@ -1,14 +1,72 @@
 {
-    "Programs":  [
-        "7-Zip",
-        "Notepad++",
-        "Telegram"
-    ],
-    "Activation":  {
-        "Windows":  true,
-        "Office":  false
+  "SchemaVersion": 2,
+  "Settings": {
+    "AutoStartEnabled": false,
+    "AutoStartSeconds": 200,
+    "StopOnError": false,
+    "ClearLogBeforeRun": false,
+    "ExecutionOrder": [
+      "defender",
+      "firewall",
+      "windows-update",
+      "@applications",
+      "activate-windows",
+      "activate-office",
+      "kes",
+      "uac"
+    ]
+  },
+  "Applications": [
+    {
+      "Id": "7zip-example",
+      "Name": "7-Zip (пример)",
+      "Category": "Application",
+      "Type": "Exe",
+      "Path": "apps\\7-Zip\\7z*-x64.exe",
+      "Arguments": "/S",
+      "SuccessExitCodes": [0, 1641, 3010],
+      "Selected": false,
+      "Order": 100,
+      "PassRootPath": false,
+      "PassLogPath": false,
+      "RootPath": "."
     },
-    "KES":  false,
-    "MaxUAC":  false,
-    "DisableFirewall":  true
+    {
+      "Id": "chrome-example",
+      "Name": "Google Chrome MSI (пример)",
+      "Category": "Application",
+      "Type": "Msi",
+      "Path": "apps\\Chrome\\GoogleChrome*.msi",
+      "Arguments": "/qn /norestart",
+      "SuccessExitCodes": [0, 1641, 3010],
+      "Selected": false,
+      "Order": 110,
+      "PassRootPath": false,
+      "PassLogPath": false,
+      "RootPath": "."
+    },
+    {
+      "Id": "custom-script-example",
+      "Name": "Пример PowerShell-установщика",
+      "Category": "Application",
+      "Type": "PowerShell",
+      "Path": "apps\\ExampleInstall.ps1",
+      "Arguments": "",
+      "SuccessExitCodes": [0],
+      "Selected": false,
+      "Order": 120,
+      "PassRootPath": true,
+      "PassLogPath": true,
+      "RootPath": "apps"
+    }
+  ],
+  "Scripts": [
+    { "Id":"defender", "Name":"Удалить Defender", "Category":"Script", "Group":"Settings", "Type":"PowerShell", "Path":"scripts\\Defender.ps1", "Arguments":"", "SuccessExitCodes":[0], "Selected":false, "Order":10, "PassRootPath":true, "PassLogPath":true, "RootPath":"scripts" },
+    { "Id":"firewall", "Name":"Отключить Firewall", "Category":"Script", "Group":"Settings", "Type":"PowerShell", "Path":"scripts\\Firewall.ps1", "Arguments":"", "SuccessExitCodes":[0], "Selected":false, "Order":20, "PassRootPath":false, "PassLogPath":true, "RootPath":"." },
+    { "Id":"windows-update", "Name":"Отключить Windows Update", "Category":"Script", "Group":"Settings", "Type":"PowerShell", "Path":"scripts\\WindowsUpdate.ps1", "Arguments":"", "SuccessExitCodes":[0], "Selected":false, "Order":30, "PassRootPath":true, "PassLogPath":true, "RootPath":"scripts" },
+    { "Id":"activate-windows", "Name":"Активировать Windows", "Category":"Script", "Group":"Activation", "Type":"PowerShell", "Path":"MAS\\MAS_WINDOWS.ps1", "Arguments":"", "SuccessExitCodes":[0], "Selected":false, "Order":300, "PassRootPath":true, "PassLogPath":true, "RootPath":"." },
+    { "Id":"activate-office", "Name":"Активировать Office", "Category":"Script", "Group":"Activation", "Type":"PowerShell", "Path":"MAS\\MAS_OFFICE.ps1", "Arguments":"", "SuccessExitCodes":[0], "Selected":false, "Order":310, "PassRootPath":true, "PassLogPath":true, "RootPath":"." },
+    { "Id":"kes", "Name":"Установить KES", "Category":"Script", "Group":"KES", "Type":"PowerShell", "Path":"KES\\KES.ps1", "Arguments":"", "SuccessExitCodes":[0], "Selected":false, "Order":320, "PassRootPath":true, "PassLogPath":true, "RootPath":"." },
+    { "Id":"uac", "Name":"UAC на максимум", "Category":"Script", "Group":"Settings", "Type":"PowerShell", "Path":"scripts\\UAC.ps1", "Arguments":"", "SuccessExitCodes":[0], "Selected":false, "Order":400, "PassRootPath":false, "PassLogPath":true, "RootPath":"." }
+  ]
 }
